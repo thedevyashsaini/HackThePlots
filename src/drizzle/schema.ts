@@ -3,8 +3,8 @@ import {relations} from "drizzle-orm";
 
 export const users = pgTable('users', {
     id: uuid('id').defaultRandom().primaryKey(),
-    username: text('username'),
-    email: text("email"),
+    username: text('username').unique(),
+    email: text("email").unique(),
     password: text("password"),
     role: text("role", {enum: ["participant", "admin"]})
 }).enableRLS();
