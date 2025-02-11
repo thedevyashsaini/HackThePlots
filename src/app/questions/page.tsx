@@ -26,15 +26,31 @@ export default async function Questions() {
                     // Completed question
                     if (completed.some(submission => submission.question_id === question.id)) {
                         return (
-                            <Card key={question.id}>
-                                <CardHeader>
-                                    <CardDescription>{question.no}</CardDescription>
-                                    <CardTitle>{question.title}</CardTitle>
-                                </CardHeader>
-                                <CardFooter>
-                                    {question.score}
-                                </CardFooter>
-                            </Card>
+                            <Link href={`/questions/${question.no}`} key={question.id}>
+                                <Card key={question.id}>
+                                    <CardHeader>
+                                        <CardDescription>{question.no}</CardDescription>
+                                        <CardTitle>{question.title}</CardTitle>
+                                    </CardHeader>
+                                    <CardFooter>
+                                        {question.score}
+                                    </CardFooter>
+                                </Card>
+                            </Link>
+                        )
+                    } else {
+                        return (
+                            <Link href={`/questions/${question.no}`} key={question.id}>
+                                <Card key={question.id}>
+                                    <CardHeader>
+                                        <CardDescription>{question.no}</CardDescription>
+                                        <CardTitle>{question.title}</CardTitle>
+                                    </CardHeader>
+                                    <CardFooter>
+                                        {question.score}
+                                    </CardFooter>
+                                </Card>
+                            </Link>
                         )
                     }
                 })
