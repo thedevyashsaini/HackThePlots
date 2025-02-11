@@ -1,64 +1,64 @@
 import {pgTable, text, uuid, bigint, timestamp, boolean} from "drizzle-orm/pg-core";
 import {relations} from "drizzle-orm";
 
-export const users = pgTable('users', {
+export const userTable = pgTable('users', {
     id: uuid('id').defaultRandom().primaryKey(),
-    username: text('username').unique(),
-    email: text("email").unique(),
-    password: text("password"),
-    role: text("role", {enum: ["participant", "admin"]})
+    username: text('username').unique().notNull(),
+    email: text("email").unique().notNull(),
+    password: text("password").notNull(),
+    role: text("role", {enum: ["participant", "admin"]}).notNull()
 }).enableRLS();
 
-export const userRelations = relations(users, ({many}) => ({
-    submissions: many(submissions)
+export const userRelations = relations(userTable, ({many}) => ({
+    submissions: many(submissionTable)
 }))
 
-export const questions = pgTable("questions", {
+export const questionTable = pgTable("questions", {
     id: uuid("id").defaultRandom().primaryKey(),
-    no: bigint("no", {mode: "number"}),
-    title: text("title"),
-    question: text("question"),
-    flag: text("flag"),
-    score: bigint("score", {mode: "number"})
+    no: bigint("no", {mode: "number"}).notNull(),
+    title: text("title").notNull(),
+    question: text("question").notNull(),
+    flag: text("flag").notNull(),
+    score: bigint("score", {mode: "number"}).notNull()
 }).enableRLS()
 
-export const questionRelations = relations(questions, ({many}) => ({
-    submissions: many(submissions),
-    assets: many(assets)
+export const questionRelations = relations(questionTable, ({many}) => ({
+    submissions: many(submissionTable),
+    assets: many(assetTable)
 }))
 
-export const submissions = pgTable("submission", {
+export const submissionTable = pgTable("submission", {
     id: uuid("id").defaultRandom().primaryKey(),
-    question_id: uuid("question_id").references(() => questions.id),
-    user_id: uuid("user_id").references(() => users.id),
-    position: bigint("position", {mode: "number"}),
-    time: timestamp("time", {mode: "date"})
+    question_id: uuid("question_id").references(() => questionTable.id).notNull(),
+    user_id: uuid("user_id").references(() => userTable.id).notNull(),
+    position: bigint("position", {mode: "number"}).notNull(),
+    time: timestamp("time", {mode: "date"}).notNull()
 }).enableRLS()
 
-export const submissionRelations = relations(submissions, ({one, many}) => ({
-    question: one(questions, {
-        fields: [submissions.question_id],
-        references: [questions.id]
+export const submissionRelations = relations(submissionTable, ({one, many}) => ({
+    question: one(questionTable, {
+        fields: [submissionTable.question_id],
+        references: [questionTable.id]
     }),
-    user: one(users, {
-        fields: [submissions.user_id],
-        references: [users.id]
+    user: one(userTable, {
+        fields: [submissionTable.user_id],
+        references: [userTable.id]
     }),
-    assets: many(assets)
+    assets: many(assetTable)
 }))
 
-export const assets = pgTable("asset", {
+export const assetTable = pgTable("asset", {
     id: uuid("id").defaultRandom().primaryKey(),
-    name: text("name"),
-    question_id: uuid("question_id").references(() => questions.id),
-    url: text("url"),
-    type: text("type", {enum: ["image", "video", "audio"]}),
-    downloadable: boolean("downloadable")
+    name: text("name").notNull(),
+    question_id: uuid("question_id").references(() => questionTable.id).notNull(),
+    url: text("url").notNull(),
+    type: text("type", {enum: ["image", "video", "audio"]}).notNull(),
+    downloadable: boolean("downloadable").notNull()
 }).enableRLS()
 
-export const assetRelations = relations(assets, ({one}) => ({
-    question: one(questions, {
-        fields: [assets.question_id],
-        references: [questions.id]
+export const assetRelations = relations(assetTable, ({one}) => ({
+    question: one(questionTable, {
+        fields: [assetTable.question_id],
+        references: [questionTable.id]
     })
 }))
