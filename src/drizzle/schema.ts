@@ -15,10 +15,10 @@ export const userRelations = relations(userTable, ({many}) => ({
 
 export const questionTable = pgTable("questions", {
     id: uuid("id").defaultRandom().primaryKey(),
-    no: bigint("no", {mode: "number"}).notNull(),
+    no: bigint("no", {mode: "number"}).unique().notNull(),
     title: text("title").notNull(),
-    question: text("question").notNull(),
-    flag: text("flag").notNull(),
+    question: text("question"),
+    flag: text("flag"),
     score: bigint("score", {mode: "number"}).notNull()
 }).enableRLS()
 

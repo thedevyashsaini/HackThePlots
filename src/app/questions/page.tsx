@@ -1,7 +1,33 @@
-export default function Questions() {
+import {db} from "@/drizzle";
+import {Card, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
+import {Label} from "@/components/ui/label";
+import Link from "next/link";
+import {asc} from "drizzle-orm";
+import {questionTable} from "@/drizzle/schema";
+
+
+export default async function Questions() {
+    const questions = await db.query.questionTable.findMany({
+        orderBy: [asc(questionTable.no)]
+    })
+
     return (
-        <div>
-            Questions
-        </div>
+        <>
+            {
+                questions.map((question) => {
+                    return (
+                        <Link key={question.id} href={`/questions/${question.no}`}>
+                            <Card>
+                                <CardHeader>
+                                    <CardDescription>{question.no}</CardDescription>
+                                    <CardTitle>question.title</CardTitle>
+                                </CardHeader>
+                                <CardFooter>{question.score}</CardFooter>
+                            </Card>
+                        </Link>
+                    )
+                })
+            }
+        </>
     )
 }
