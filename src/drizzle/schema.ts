@@ -18,7 +18,7 @@ export const questionTable = pgTable("questions", {
     no: bigint("no", {mode: "number"}).unique().notNull(),
     title: text("title").notNull(),
     question: text("question"),
-    flag: text("flag"),
+    flag: text("flag").unique(),
     score: bigint("score", {mode: "number"}).notNull()
 }).enableRLS()
 
@@ -34,7 +34,8 @@ export const submissionTable = pgTable("submission", {
     position: bigint("position", {mode: "number"}).notNull(),
     time: timestamp({withTimezone: true, mode: 'string'}).notNull(),
 }, (t) => ({
-    first: unique('custom_name').on(t.question_id, t.user_id).nullsNotDistinct()
+    first: unique('custom_name').on(t.question_id, t.user_id).nullsNotDistinct(),
+    second: unique('custom_name2').on(t.question_id, t.position).nullsNotDistinct()
 })).enableRLS()
 
 export const submissionRelations = relations(submissionTable, ({one, many}) => ({
@@ -54,7 +55,7 @@ export const assetTable = pgTable("asset", {
     name: text("name").notNull(),
     question_id: uuid("question_id").references(() => questionTable.id).notNull(),
     url: text("url").notNull(),
-    type: text("type", {enum: ["image", "video", "audio"]}).notNull(),
+    type: text("type", {enum: ["image", "video", "audio", "zip", "pdf"]}).notNull(),
     downloadable: boolean("downloadable").notNull()
 }).enableRLS()
 

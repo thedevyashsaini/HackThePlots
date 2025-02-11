@@ -1,6 +1,5 @@
 import {db} from "@/drizzle";
 import {Card, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {Label} from "@/components/ui/label";
 import Link from "next/link";
 import {asc} from "drizzle-orm";
 import {questionTable} from "@/drizzle/schema";

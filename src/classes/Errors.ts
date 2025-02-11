@@ -20,4 +20,12 @@ export class Errors {
             error: true
         }
     }
+
+    static AuthError(e: any) {
+        return {
+            message: "Authentication Error",
+            error: true,
+            data: e
+        }
+    }
 }
