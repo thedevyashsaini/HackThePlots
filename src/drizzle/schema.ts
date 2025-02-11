@@ -1,4 +1,4 @@
-import {pgTable, text, uuid, bigint, timestamp, boolean, uniqueIndex, unique} from "drizzle-orm/pg-core";
+import {bigint, boolean, pgTable, text, timestamp, unique, uuid} from "drizzle-orm/pg-core";
 import {relations} from "drizzle-orm";
 
 export const userTable = pgTable('users', {
@@ -6,6 +6,7 @@ export const userTable = pgTable('users', {
     username: text('username').unique().notNull(),
     email: text("email").unique().notNull(),
     password: text("password").notNull(),
+    progress: bigint("progress", {mode: "number"}).default(1).notNull(),
     role: text("role", {enum: ["participant", "admin"]}).notNull()
 }).enableRLS();
 
