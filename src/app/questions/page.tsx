@@ -20,7 +20,7 @@ export default async function Questions() {
                             <Card>
                                 <CardHeader>
                                     <CardDescription>{question.no}</CardDescription>
-                                    <CardTitle>question.title</CardTitle>
+                                    <CardTitle>{question.title}</CardTitle>
                                 </CardHeader>
                                 <CardFooter>{question.score}</CardFooter>
                             </Card>

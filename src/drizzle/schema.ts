@@ -1,4 +1,4 @@
-import {pgTable, text, uuid, bigint, timestamp, boolean} from "drizzle-orm/pg-core";
+import {pgTable, text, uuid, bigint, timestamp, boolean, uniqueIndex, unique} from "drizzle-orm/pg-core";
 import {relations} from "drizzle-orm";
 
 export const userTable = pgTable('users', {
@@ -32,8 +32,10 @@ export const submissionTable = pgTable("submission", {
     question_id: uuid("question_id").references(() => questionTable.id).notNull(),
     user_id: uuid("user_id").references(() => userTable.id).notNull(),
     position: bigint("position", {mode: "number"}).notNull(),
-    time: timestamp("time", {mode: "date"}).notNull()
-}).enableRLS()
+    time: timestamp({withTimezone: true, mode: 'string'}).notNull(),
+}, (t) => ({
+    first: unique('custom_name').on(t.question_id, t.user_id).nullsNotDistinct()
+})).enableRLS()
 
 export const submissionRelations = relations(submissionTable, ({one, many}) => ({
     question: one(questionTable, {
