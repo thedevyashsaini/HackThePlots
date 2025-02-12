@@ -40,11 +40,11 @@ export default async function Question({
     },
   });
 
-  if (!question) return <h1>It don't exist homedawg</h1>;
+  if (!question) return <h1>It don't exist homedawg.</h1>;
 
   return (
     <>
-      <div className="hidden md:block">
+      <div className="hidden md:block w-full">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel minSize={25} defaultSize={50}>
             {/* {questionPanel(question)} */}
@@ -88,31 +88,16 @@ const Component = (props: {type: boolean, question: Question}) => {
     <div className={`flex flex-col ${props.type ? "h-full" : "h-[60%]"} bg-black border border-zinc-800 rounded-lg text-white`}>
       <div className="p-4 border-b border-zinc-800">
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold text-white opacity-75">1.</span>
-          <h1 className="text-xl font-semibold">An Elusive Memory</h1>
+          <span className="text-2xl font-bold text-white opacity-75">{props.question.no}.</span>
+          <h1 className="text-xl font-semibold">{props.question.title}</h1>
         </div>
         <div className="mt-1 text-sm text-zinc-400">
-          Points: <span className="text-[#8b5cf6]">10</span>
+          Points: <span className="text-[#8b5cf6]">{props.question.score}</span>
         </div>
       </div>
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
-          <p className="text-sm text-zinc-300">
-            Your challenge description and content goes here. This area is
-            scrollable when the content overflows.
-          </p>
-          {/* Add more content as needed */}
-          <div className="space-y-2">
-            <p className="text-sm text-zinc-300">
-              Additional challenge details can go here.
-            </p>
-            <p className="text-sm text-zinc-300">
-              You can add multiple paragraphs of information.
-            </p>
-            <p className="text-sm text-zinc-300">
-              The content will scroll while keeping the header and footer fixed.
-            </p>
-          </div>
+
         </div>
       </ScrollArea>
       <div className="p-4 border-t border-zinc-800 mt-auto">
