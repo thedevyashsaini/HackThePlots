@@ -26,8 +26,10 @@
     "postgres": "^3.4.5",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react-h5-audio-player": "^3.9.3",
     "react-resizable-panels": "^2.1.6",
     "recharts": "^2.13.3",
+    "srt-parser-2": "^1.2.3",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
   },

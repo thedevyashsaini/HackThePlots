@@ -23,6 +23,8 @@ import {ScrollArea} from "@/components/ui/scroll-area";
 import {Input} from "@/components/ui/input_2";
 import {HoverBorderGradient} from "@/components/ui/hover-border-gradient";
 import {flagSubmit} from "@/actions/flagSubmit";
+import AudioCaptionPlayer from "@/components/AudioCaptionPlayer";
+import {Suspense} from "react";
 
 export default async function Question({
                                            params,
@@ -90,26 +92,28 @@ const assetsPanel = (question: Question) => {
     );
 };
 
-const Component = (props: {type: boolean, question: Question}) => {
-  return (
-    <div className={`flex flex-col ${props.type ? "h-full" : "h-[60%]"} bg-black border border-zinc-800 rounded-lg text-white`}>
-      <div className="p-4 border-b border-zinc-800">
-        <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold text-white opacity-75">{props.question.no}.</span>
-          <h1 className="text-xl font-semibold">{props.question.title}</h1>
+const Component = (props: { type: boolean, question: Question }) => {
+    return (
+        <div
+            className={`flex flex-col ${props.type ? "h-full" : "h-[60%]"} bg-black border border-zinc-800 rounded-lg text-white`}>
+            <div className="p-4 border-b border-zinc-800">
+                <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-bold text-white opacity-75">{props.question.no}.</span>
+                    <h1 className="text-xl font-semibold">{props.question.title}</h1>
+                </div>
+                <div className="mt-1 text-sm text-zinc-400">
+                    Points: <span className="text-[#8b5cf6]">{props.question.score}</span>
+                </div>
+            </div>
+            <ScrollArea className="flex-1 p-4">
+                <div className="space-y-4">
+                    <AudioCaptionPlayer srt_url={'https://utfs.io/f/5BReTzArpKoqwE3Y7Km5hqKaUsjAin6ZNzd0MPeSXETJlO2Q'}
+                                        audio_url={"https://utfs.io/f/5BReTzArpKoqgE7JDwsy9xeTJgVbv3OP5pwIhRCW7Eo8iaDd"}/>
+                </div>
+            </ScrollArea>
+            <div className="p-4 border-t border-zinc-800 mt-auto">
+                <FlagForm type={props.type} question={props.question}/>
+            </div>
         </div>
-        <div className="mt-1 text-sm text-zinc-400">
-          Points: <span className="text-[#8b5cf6]">{props.question.score}</span>
-        </div>
-      </div>
-      <ScrollArea className="flex-1 p-4">
-        <div className="space-y-4">
-
-        </div>
-      </ScrollArea>
-      <div className="p-4 border-t border-zinc-800 mt-auto">
-        <FlagForm type={props.type} question={props.question}/>
-      </div>
-    </div>
-  );
+    );
 };
