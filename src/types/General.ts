@@ -1,4 +1,4 @@
-export interface question {
+export interface Question {
     title: string;
     id: string;
     no: number;
@@ -21,5 +21,5 @@ export interface submission {
     position: number;
     question_id: string;
     user_id: string;
-    question: question;
+    question: Question;
 }

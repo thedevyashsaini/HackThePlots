@@ -6,13 +6,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Lock, CheckCircle } from "lucide-react";
-import { question } from "@/types/General";
+import { Question } from "@/types/General";
 import Link from "next/link";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 
-const QuestionCard = (props: { question: question; progress: number }) => {
-  const question: question = props.question;
+const QuestionCard = (props: { question: Question; progress: number }) => {
+  const question: Question = props.question;
   const progress: number = props.progress;
 
   return (

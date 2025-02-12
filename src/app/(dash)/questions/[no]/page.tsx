@@ -1,3 +1,4 @@
+
 import {
   Card,
   CardContent,
@@ -17,11 +18,12 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { question } from "@/types/General";
+import type { Question } from "@/types/General";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input_2";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { flagSubmit } from "@/actions/flagSubmit";
 
 export default async function Question({
   params,
@@ -46,7 +48,7 @@ export default async function Question({
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel minSize={25} defaultSize={50}>
             {/* {questionPanel(question)} */}
-            <Component />
+            <Component type={true} question={question}/>
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel minSize={25} defaultSize={50}>
@@ -55,33 +57,16 @@ export default async function Question({
         </ResizablePanelGroup>
       </div>
       <div className="md:hidden h-full">
-        {questionPanel(question)}
+        {/* {questionPanel(question)} */}
+        <Component type={false} question={question}/>
         {assetsPanel(question)}
       </div>
     </>
   );
 }
 
-const questionPanel = (question: question) => {
-  return (
-    <Card className="h-fit min-h-[50%] md:h-full">
-      <CardHeader>
-        <CardDescription className="text-5xl font-bold text-white opacity-50">
-          {question.no}.
-        </CardDescription>
-        <CardTitle className="">{question.title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Label>{question.question ? question.question : null}</Label>
 
-        <FlagForm questionID={question.id} />
-      </CardContent>
-      <CardFooter>{question.score}</CardFooter>
-    </Card>
-  );
-};
-
-const assetsPanel = (question: question) => {
+const assetsPanel = (question: Question) => {
   return (
     <Card className="min-h-[50%] h-fit md:h-full">
       <CardHeader>
@@ -98,9 +83,9 @@ const assetsPanel = (question: question) => {
   );
 };
 
-const Component = () => {
+const Component = (props: {type: boolean, question: Question}) => {
   return (
-    <div className="flex flex-col h-full min-h-[600px] bg-black border border-zinc-800 rounded-lg text-white">
+    <div className={`flex flex-col ${props.type ? "h-full" : "h-[60%]"} bg-black border border-zinc-800 rounded-lg text-white`}>
       <div className="p-4 border-b border-zinc-800">
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-bold text-white opacity-75">1.</span>
@@ -131,24 +116,7 @@ const Component = () => {
         </div>
       </ScrollArea>
       <div className="p-4 border-t border-zinc-800 mt-auto">
-        <form className="flex gap-2">
-          <Input
-            type="text"
-            placeholder="flag{...}"
-            className="flex-1 !bg-black border-zinc-700 text-white rounded-full placeholder-zinc-500"
-            name="flag"
-          />
-          <HoverBorderGradient
-            containerClassName="rounded-full"
-            as="button"
-            className="bg-black text-black dark:text-white flex items-center space-x-4 px-8 sm:w-full"
-            typeof="submit"
-          >
-            <span className="w-full bg-black hover:bg-black text-white">
-              Submit
-            </span>
-          </HoverBorderGradient>
-        </form>
+        <FlagForm type={props.type} question={props.question}/>
       </div>
     </div>
   );
