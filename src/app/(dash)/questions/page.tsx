@@ -27,7 +27,7 @@ export default async function Questions() {
     <BackgroundBeamsWithCollision>
       <div className="min-h-screen w-screen text-gray-200 p-8">
         <div className="text-8xl relative font-extrabold mb-8 text-center font-bold text-white text-transparent bg-clip-text bg-no-repeat bg-gradient-to-r py-4 from-purple-500 via-violet-500 to-pink-500 [text-shadow:0_0_rgba(0,0,0,0.1)]">
-          <h1 className="opacity-[.10] text-center overflow-hidden whitespace-nowrap">
+          <h1 className="opacity-[.10] text-center overflow-hidden whitespace-nowrap pb-4">
             13 Reasons Why
           </h1>
           <span className="absolute left-0 right-0 bottom-4 m-auto text-6xl opacity-[0.80]">
