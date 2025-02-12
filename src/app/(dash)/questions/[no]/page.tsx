@@ -45,13 +45,13 @@ export default async function Question({
 
     if (!user) return <h1>It don't exist homedawg</h1>;
     if (!question) return <h1>It don't exist homedawg</h1>;
-    if (user.progress < question.no + 1) {
+    if (user.progress < question.no) {
         return <h1>Nuh uh, you can't see that homedawg</h1>;
     }
 
     return (
         <>
-            <div className="hidden md:block">
+            <div className="hidden md:block w-full">
                 <ResizablePanelGroup direction="horizontal">
                     <ResizablePanel minSize={25} defaultSize={50}>
                         {/* {questionPanel(question)} */}
