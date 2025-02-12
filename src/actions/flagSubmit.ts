@@ -23,7 +23,7 @@ export async function flagSubmit(questionID: string, flag: string) {
             if (!question) return Errors.NotFound("Question doesn't exist")
             if (!user) return Errors.NotFound("User doesn't exist")
 
-            if (user.progress !== question.no) {
+            if (user.progress < question.no) {
                 return Errors.Unsuccessful("You can't submit for this question")
             }
 
