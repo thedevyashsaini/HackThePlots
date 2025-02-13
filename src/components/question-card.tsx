@@ -10,7 +10,6 @@ import { Question } from "@/types/General";
 import Link from "next/link";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
-
 const QuestionCard = (props: { question: Question; progress: number }) => {
   const question: Question = props.question;
   const progress: number = props.progress;

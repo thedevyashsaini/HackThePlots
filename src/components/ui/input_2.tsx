@@ -35,7 +35,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setVisible(true)}
         onMouseLeave={() => setVisible(false)}
-        className={`p-[2px] ${props.name != 'flag' ? "rounded-lg" : "w-full rounded-full"} transition duration-300 group/input`}
+        className={`p-[2px] ${props.name != "flag" ? "rounded-lg" : "w-full rounded-full"} transition duration-300 group/input`}
       >
         <input
           type={type}
@@ -47,7 +47,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
            dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
            group-hover/input:shadow-none transition duration-400
            `,
-            className
+            className,
           )}
           autoComplete="off"
           ref={ref}
@@ -55,7 +55,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         />
       </motion.div>
     );
-  }
+  },
 );
 Input.displayName = "Input";
 
