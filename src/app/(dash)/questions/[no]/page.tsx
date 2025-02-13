@@ -1,16 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/drizzle";
 import { eq } from "drizzle-orm";
-import { questionTable, userTable } from "@/drizzle/schema";
+import { questionTable, transcriptTable, userTable } from "@/drizzle/schema";
 import FlagForm from "@/components/FlagForm";
-import { Label } from "@/components/ui/label";
 import { auth } from "@/functions/auth";
 import {
   ResizableHandle,
@@ -18,13 +10,8 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import type { Question } from "@/types/General";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Input } from "@/components/ui/input_2";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { flagSubmit } from "@/actions/flagSubmit";
 import AudioCaptionPlayer from "@/components/AudioCaptionPlayer";
-import { Suspense } from "react";
 
 export default async function Question({
   params,
@@ -41,9 +28,20 @@ export default async function Question({
   const question = await db.query.questionTable.findFirst({
     where: eq(questionTable.no, parseInt(no)),
     with: {
-      assets: true,
+      assets: {
+        with: {
+          transcript: {
+            columns: {
+              audio_id: true,
+              transcript_id: true,
+            },
+          },
+        },
+      },
     },
   });
+
+  console.log(question);
 
   if (!user) return <h1>It don't exist homedawg</h1>;
   if (!question) return <h1>It don't exist homedawg</h1>;
@@ -121,15 +119,37 @@ const QuestionPanel = (props: {
       </div>
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
-          <AudioCaptionPlayer
-            srt_url={
-              "https://utfs.io/f/5BReTzArpKoqwE3Y7Km5hqKaUsjAin6ZNzd0MPeSXETJlO2Q"
+          {props.question.assets?.map(async (asset) => {
+            if (
+              asset.type == "audio" &&
+              !asset.downloadable &&
+              asset.transcript
+            ) {
+              const transcript = await db.query.transcriptTable.findFirst({
+                where: eq(transcriptTable.audio_id, asset.transcript.audio_id),
+                with: {
+                  audio: {
+                    columns: {
+                      url: true,
+                    },
+                  },
+                  transcript: {
+                    columns: {
+                      url: true,
+                    },
+                  },
+                },
+              });
+              if (!transcript) return null;
+              return (
+                <AudioCaptionPlayer
+                  srt_url={transcript.transcript.url}
+                  audio_url={transcript.audio.url}
+                  questionNumber={props.question.no.toString()}
+                />
+              );
             }
-            audio_url={
-              "https://utfs.io/f/5BReTzArpKoqgE7JDwsy9xeTJgVbv3OP5pwIhRCW7Eo8iaDd"
-            }
-            questionNumber={props.question.no.toString()}
-          />
+          })}
         </div>
       </ScrollArea>
       <div className="p-4 border-t border-zinc-800 mt-auto">

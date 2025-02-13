@@ -6,12 +6,16 @@ export interface Question {
   flag: string | null;
   score: number;
   assets?: {
-    type: "audio" | "video" | "image" | "zip" | "pdf";
+    type: "audio" | "video" | "image" | "zip" | "pdf" | "srt";
     id: string;
     url: string;
     name: string;
     question_id: string;
     downloadable: boolean;
+    transcript?: {
+      audio_id: string;
+      transcript_id: string;
+    };
   }[];
 }
 
