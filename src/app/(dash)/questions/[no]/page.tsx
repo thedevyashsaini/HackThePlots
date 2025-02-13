@@ -143,6 +143,7 @@ const QuestionPanel = (props: {
               if (!transcript) return null;
               return (
                 <AudioCaptionPlayer
+                  key={asset.id}
                   srt_url={transcript.transcript.url}
                   audio_url={transcript.audio.url}
                   questionNumber={props.question.no.toString()}
