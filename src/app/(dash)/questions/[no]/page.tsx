@@ -105,7 +105,7 @@ const QuestionPanel = (props: {
   return (
     <div
       className={`flex flex-col ${
-        props.type ? "h-full" : "h-[60%]"
+        props.type ? "h-full" : "min-h-[60%] max-h-[80%]"
       } bg-black border border-zinc-800 rounded-lg text-white`}
     >
       <div className="p-4 border-b border-zinc-800">

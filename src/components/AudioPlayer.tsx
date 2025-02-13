@@ -4,7 +4,13 @@ import { useRef, useState, useEffect } from "react";
 import srtParser2 from "srt-parser-2";
 import Cookies from "js-cookie";
 import { Button } from "./ui/button";
-import { Pause, Play } from "lucide-react";
+import { ChevronsUpDown, Pause, Play } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import React from "react";
 
 export default function AudioPlayer({
   srt,
@@ -20,6 +26,7 @@ export default function AudioPlayer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [srtIndex, setSrtIndex] = useState(0);
   const [isFirstPlay, setIsFirstPlay] = useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -92,59 +99,79 @@ export default function AudioPlayer({
   return (
     <>
       <div className="rounded-lg shadow-md">
-        <div className="flex items-center space-x-4 bg-gray-900 text-white p-4 rounded-lg space-y-4">
-          <audio
-            ref={audioRef}
-            src={audio}
-            onLoadedMetadata={handleLoadedMetadata}
-            onTimeUpdate={handleTimeUpdate}
-            onEnded={() => setIsPlaying(false)}
-            className="hidden"
+        <audio
+          ref={audioRef}
+          src={audio}
+          autoPlay={true}
+          onLoadedMetadata={handleLoadedMetadata}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={() => setIsPlaying(false)}
+          preload="metadata"
+          className="hidden"
+        />
+        <div className="flex items-center w-full max-w-[40rem] mx-auto space-x-4 border text-white p-2 px-4 rounded-full">
+          <Button
+            onClick={handlePlayPause}
+            className="ext-white hover:text-gray-300"
+            variant="ghost"
+            size="icon"
+          >
+            {isPlaying ? (
+              <Pause className="h-6 w-6" />
+            ) : (
+              <Play className="h-6 w-6" />
+            )}
+          </Button>
+          <input
+            type="range"
+            min="0"
+            max={duration}
+            value={currentTime}
+            onChange={handleSeek}
+            className="w-full max-w-md bg-gray-800 cursor-pointer opacity-75"
+            disabled={isFirstPlay && currentTime < duration}
           />
-            <Button
-              onClick={handlePlayPause}
-              className="ext-white hover:text-gray-300"
-              variant="ghost"
-              size="icon"
-            >
-              {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
-            </Button>
-            <input
-              type="range"
-              min="0"
-              max={duration}
-              value={currentTime}
-              onChange={handleSeek}
-              className="w-full max-w-md"
-              disabled={isFirstPlay && currentTime < duration}
-            />
-            <div className="text-sm tabular-nums whitespace-nowrap">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </div>
+          <div className="text-[0.70rem] tabular-nums whitespace-nowrap">
+            {formatTime(currentTime)} / {formatTime(duration)}
+          </div>
         </div>
       </div>
-      <div>
-        {srt.map((obj, index) => {
-          if (index <= srtIndex) {
-            return (
-              <div
-                key={index}
-                className={`p-2 rounded ${
-                  srtIndex === index ? "border" : ""
-                }`}
-              >
+
+      <Collapsible
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        className="w-full space-y-2"
+      >
+        <div className="flex items-center justify-between space-x-4 px-4">
+          <h4 className="text-sm font-semibold cursor-pointer" onClick={() => {setIsOpen((isOpen) => !isOpen)}}>Transcribe</h4>
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm" className="w-9 p-0">
+              <ChevronsUpDown className="h-4 w-4" />
+              <span className="sr-only">Toggle</span>
+            </Button>
+          </CollapsibleTrigger>
+        </div>
+        <CollapsibleContent className="space-y-2">
+          {srt.map((obj, index) => {
+            if (index <= srtIndex) {
+              return (
                 <div
-                  className={`${
-                    srtIndex === index ? "text-gray-500" : "text-gray-600"
-                  }`}
+                  key={index}
+                  className={`p-2 rounded ${srtIndex === index ? "border" : ""}`}
                 >
-                  {obj.text}
+                  <div
+                    className={`${
+                      srtIndex === index ? "text-gray-500" : "text-gray-600"
+                    }`}
+                  >
+                    {obj.text}
+                  </div>
                 </div>
-              </div>
-            );
-          }
-        })}
-      </div>
+              );
+            }
+          })}
+        </CollapsibleContent>
+      </Collapsible>
     </>
   );
 }

@@ -28,7 +28,7 @@ export default function FlagForm(props: { type: boolean; question: Question }) {
       <Input
         type="text"
         placeholder="flag{...}"
-        className="flex-1 !bg-black b   order-zinc-700 text-white rounded-full placeholder-zinc-500"
+        className="flex-1 !bg-black b h-[2.7rem] order-zinc-700 text-white rounded-full placeholder-zinc-500"
         name="flag"
       />
       <HoverBorderGradient
