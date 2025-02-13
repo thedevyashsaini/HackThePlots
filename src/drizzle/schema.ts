@@ -15,7 +15,9 @@ export const userTable = pgTable("users", {
   email: text("email").unique().notNull(),
   password: text("password").notNull(),
   progress: bigint("progress", { mode: "number" }).default(1).notNull(),
-  role: text("role", { enum: ["participant", "admin"] }).notNull(),
+  role: text("role", { enum: ["participant", "admin"] })
+    .default("participant")
+    .notNull(),
 }).enableRLS();
 
 export const userRelations = relations(userTable, ({ many }) => ({
