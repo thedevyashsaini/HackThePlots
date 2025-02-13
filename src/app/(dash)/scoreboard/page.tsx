@@ -6,9 +6,17 @@ import calculateScore from "@/functions/individualScore";
 
 const ScoreboardPage = async () => {
   const [questions, submissions, users] = await Promise.all([
-    db.query.questionTable.findMany({}), // don't forget to remove flag
+    db.query.questionTable.findMany({
+      columns: {
+        flag: false
+      }
+    }),
     db.query.submissionTable.findMany({}),
-    db.query.userTable.findMany({}),
+    db.query.userTable.findMany({
+      columns: {
+        password: false
+      }
+    }),
   ]);
 
   const questionsWithSubmissions = questions.map((question) => {

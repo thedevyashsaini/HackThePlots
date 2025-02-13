@@ -1,14 +1,6 @@
+import { Question } from "@/types/General";
 import calculateScore from "./individualScore";
-
-type Team = {
-  score: number;
-  progress: number;
-  id: string;
-  username: string;
-  email: string;
-  password: string;
-  role: "participant" | "admin";
-};
+import { Teams } from "@/types/General";
 
 type Submission = {
   time: string;
@@ -18,22 +10,16 @@ type Submission = {
   position: number;
 };
 
-type Question = {
+interface QuestionWithSubmissions extends Question {
   submissions: number;
-  title: string;
-  id: string;
-  no: number;
-  question: string | null;
-  flag: string | null;
-  score: number;
 };
 
 type ChartDataPoint = { [key: string]: number | string };
 
 export default function generateChartData(
-  teams: Team[],
+  teams: Teams[],
   submissions: Submission[],
-  questionsWithSubmissions: Question[],
+  questionsWithSubmissions: QuestionWithSubmissions[],
 ): ChartDataPoint[] {
   console.log(teams);
   const topTeams = teams.sort((a, b) => b.score - a.score).slice(0, 10);

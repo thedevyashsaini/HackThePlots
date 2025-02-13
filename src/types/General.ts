@@ -3,7 +3,7 @@ export interface Question {
   id: string;
   no: number;
   question: string | null;
-  flag: string | null;
+  flag?: string | null;
   score: number;
   assets?: {
     type: "audio" | "video" | "image" | "zip" | "pdf";
@@ -22,4 +22,14 @@ export interface submission {
   question_id: string;
   user_id: string;
   question?: Question;
+}
+
+export interface Teams {
+  score: number;
+  progress: number;
+  id: string;
+  username: string;
+  email: string;
+  password?: string;
+  role: "participant" | "admin";
 }

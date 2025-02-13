@@ -80,7 +80,6 @@ export default function AudioPlayer({
 
   const handleSeek = (event: React.ChangeEvent<HTMLInputElement>) => {
     const seekTime = Number(event.target.value);
-    // Only allow seeking if it's not the first play or if the seek time is backward
     if (!isFirstPlay || seekTime <= currentTime) {
       if (audioRef.current) {
         audioRef.current.currentTime = seekTime;
@@ -102,7 +101,6 @@ export default function AudioPlayer({
         <audio
           ref={audioRef}
           src={audio}
-          autoPlay={true}
           onLoadedMetadata={handleLoadedMetadata}
           onTimeUpdate={handleTimeUpdate}
           onEnded={() => setIsPlaying(false)}
@@ -145,7 +143,7 @@ export default function AudioPlayer({
         <div className="flex items-center justify-between space-x-4 px-4">
           <h4 className="text-sm font-semibold cursor-pointer" onClick={() => {setIsOpen((isOpen) => !isOpen)}}>Transcribe</h4>
           <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="sm" className="w-9 p-0">
+            <Button variant="ghost" size="sm" className="w-9 p-0 border !mr-auto">
               <ChevronsUpDown className="h-4 w-4" />
               <span className="sr-only">Toggle</span>
             </Button>
@@ -157,7 +155,7 @@ export default function AudioPlayer({
               return (
                 <div
                   key={index}
-                  className={`p-2 rounded ${srtIndex === index ? "border" : ""}`}
+                  className={`p-2 rounded`}
                 >
                   <div
                     className={`${

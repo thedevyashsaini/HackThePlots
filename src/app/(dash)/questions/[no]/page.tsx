@@ -119,7 +119,7 @@ const QuestionPanel = (props: {
           Points: <span className="text-[#8b5cf6]">{props.question.score}</span>
         </div>
       </div>
-      <ScrollArea className="flex-1 p-4">
+      <ScrollArea className="flex-1 p-4 overflow-auto">
         <div className="space-y-4">
           <AudioCaptionPlayer
             srt_url={
