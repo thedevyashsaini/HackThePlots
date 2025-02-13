@@ -1,29 +1,22 @@
-'use server'
-import nodemailer from 'nodemailer';
+"use server";
+import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com",
-    port: 587,
-    tls: {
-        ciphers: "SSLv3",
-        rejectUnauthorized: false,
-    },
+export const sendMail = async (from: string, to: string, subject: string, html: string) => {
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
 
     auth: {
+      user: "hacktheplot@gmail.com",
+      pass: process.env.GOOGLE_APP_PASSWORD,
+    },
+  });
 
-        user: username,
-        pass: password
-    }
-});
-
-const mail = await transporter.sendMail({
-    from: username,
-    to: myEmail,
-    replyTo: email,
-    subject: Website activity from ${email},
-    html: `
-    <p>Name: ${name} </p>
-    <p>Email: ${email} </p>
-    <p>Message: ${message} </p>
-    `,
-})
+  const mail = await transporter.sendMail({
+    from: from,
+    to: to,
+    replyTo: from,
+    subject: subject,
+    html: html,
+  });
+};
