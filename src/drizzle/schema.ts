@@ -82,7 +82,7 @@ export const assetTable = pgTable("asset", {
     .notNull(),
   url: text("url").notNull(),
   type: text("type", {
-    enum: ["image", "video", "audio", "zip", "pdf"],
+    enum: ["image", "video", "audio", "zip", "pdf", "srt"],
   }).notNull(),
   downloadable: boolean("downloadable").notNull(),
 }).enableRLS();
@@ -91,5 +91,29 @@ export const assetRelations = relations(assetTable, ({ one }) => ({
   question: one(questionTable, {
     fields: [assetTable.question_id],
     references: [questionTable.id],
+  }),
+  transcript: one(transcriptTable, {
+    fields: [assetTable.id],
+    references: [transcriptTable.audio_id],
+  }),
+}));
+
+export const transcriptTable = pgTable("transcript", {
+  audio_id: uuid("audio_id")
+    .primaryKey()
+    .references(() => assetTable.id),
+  transcript_id: uuid("transcript_id")
+    .notNull()
+    .references(() => assetTable.id),
+});
+
+export const transcriptRelations = relations(transcriptTable, ({ one }) => ({
+  audio: one(assetTable, {
+    fields: [transcriptTable.audio_id],
+    references: [assetTable.id],
+  }),
+  transcript: one(assetTable, {
+    fields: [transcriptTable.transcript_id],
+    references: [assetTable.id],
   }),
 }));
