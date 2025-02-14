@@ -12,7 +12,7 @@ export async function signIn(email: string, password: string) {
   try {
     if (
       process.env.NEXT_PUBLIC_LOCKUP_TIME &&
-      new Date(process.env.NEXT_PUBLIC_LOCKUP_TIME) <= new Date()
+      new Date(parseInt(process.env.NEXT_PUBLIC_LOCKUP_TIME)) < new Date()
     ) {
       const user = await db.query.userTable.findFirst({
         where: eq(userTable.email, email),

@@ -53,7 +53,7 @@ export default function SignupFormDemo() {
           action={async (formData) => {
             if (
               process.env.NEXT_PUBLIC_LOCKUP_TIME &&
-              new Date(process.env.NEXT_PUBLIC_LOCKUP_TIME) <= new Date()
+              new Date(parseInt(process.env.NEXT_PUBLIC_LOCKUP_TIME)) < new Date()
             ) {
               const email = formData.get("email")?.toString();
               const password = formData.get("password")?.toString();
@@ -103,12 +103,12 @@ export default function SignupFormDemo() {
 
           <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 
-          <div className="flex flex-row  -my-3 -mb-10 text-zinc-400 justify-center">
+          {countdown !== "NOW" && <div className="flex flex-row  -my-3 -mb-10 text-zinc-400 justify-center">
             Starting in:  
             <div className="text-center font-mono text-md text-zinc-400 ml-2">
               {countdown}
             </div>
-          </div>
+          </div>}
         </form>
       </div>
       <BackgroundBeams className="pointer-events-none z-0" />
