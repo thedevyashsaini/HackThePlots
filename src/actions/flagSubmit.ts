@@ -47,9 +47,12 @@ export async function flagSubmit(questionID: string, flag: string) {
           position: submissionCount + 1,
           time: postgresTimestamp,
         });
-        await tx.update(userTable).set({
-          progress: question.no + 1,
-        });
+        await tx
+          .update(userTable)
+          .set({
+            progress: question.no + 1,
+          })
+          .where(eq(userTable.id, payload.id));
       });
       return {
         message: "Correct Answer!",
