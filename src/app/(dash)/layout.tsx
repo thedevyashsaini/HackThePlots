@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "../globals.css";
 import Sidebar from "@/components/sidebar-component";
 import { headers } from "next/headers";
+import { auth } from "@/functions/auth";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -29,12 +30,14 @@ export default async function RootLayout({
   const pathname = headersList.get("x-invoke-path") || "";
   console.log("---" + pathname);
 
+  const payload = await auth();
+
   return (
     <html className={"dark"} lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Sidebar>{children}</Sidebar>
+        <Sidebar user={payload}>{children}</Sidebar>
       </body>
     </html>
   );

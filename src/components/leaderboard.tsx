@@ -9,8 +9,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Teams } from "@/types/General";
 
-export function Leaderboard(props: { teams: any[] }) {
+export function Leaderboard(props: {
+  teams: Teams[];
+  userid: string;
+  inIn10: boolean;
+}) {
+  const myTeamIndex = props.teams.findIndex((team) => team.id === props.userid);
+const myteam = props.teams[myTeamIndex];
   return (
     <Table>
       {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
@@ -34,14 +41,17 @@ export function Leaderboard(props: { teams: any[] }) {
           </TableRow>
         ))}
       </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell>52</TableCell>
-          <TableCell>team 69</TableCell>
-          <TableCell>-2</TableCell>
-          <TableCell className="text-right">10</TableCell>
-        </TableRow>
-      </TableFooter>
+      {/* if user is not in top 10, show */}
+      {!props.inIn10 && (
+        <TableFooter>
+          <TableRow>
+            <TableCell>{myTeamIndex+1}</TableCell>
+            <TableCell>{myteam.username}</TableCell>
+            <TableCell>{myteam.progress-1}</TableCell>
+            <TableCell className="text-right">{myteam.score}</TableCell>
+          </TableRow>
+        </TableFooter>
+      )}
     </Table>
   );
 }

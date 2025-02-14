@@ -3,13 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { signup } from "@/actions/signup";
 import { useState } from "react";
+import { FileUpload } from "@/components/ui/file-upload";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
 export default function Users() {
   const [users, setUsers] = useState<
     { username: string; password: string; email: string }[]
   >([]);
-  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleFileSelect = async (files: File[]) => {
+    const file = files[0];
     if (!file) return;
 
     const text = await file.text();
@@ -36,17 +38,27 @@ export default function Users() {
   };
 
   return (
-    <div>
-      <input type="file" accept=".csv" onChange={handleFileSelect} />;
-      <Button
-        onClick={async (e) => {
-          const smth = await signup(users);
+    <div className="min-h-screen h-screen w-screen overflow-auto bg-black rounded-md text-gray-200 p-8">
+      <FileUpload onChange={handleFileSelect} />
+      <div className="w-full flex flex-row justify-center">
+        <HoverBorderGradient
+          containerClassName="rounded-full"
+          as="button"
+          className="bg-black text-black dark:text-white flex items-center space-x-4 px-8 sm:w-full"
+          typeof="submit"
+        >
+          <span
+            className="w-full bg-black hover:bg-black text-sm text-white"
+            onClick={async (e) => {
+              const smth = await signup(users);
 
-          console.log(smth);
-        }}
-      >
-        Upload Users
-      </Button>
+              console.log(smth);
+            }}
+          >
+            Create Users
+          </span>
+        </HoverBorderGradient>
+      </div>
     </div>
   );
 }

@@ -3,8 +3,10 @@ import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-w
 import { db } from "@/drizzle";
 import { questionTable } from "@/drizzle/schema";
 import calculateScore from "@/functions/individualScore";
+import { auth } from "@/functions/auth";
 
 const ScoreboardPage = async () => {
+  const payload = await auth();
   const [questions, submissions, users] = await Promise.all([
     db.query.questionTable.findMany({
       columns: {
@@ -42,16 +44,18 @@ const ScoreboardPage = async () => {
         const question = questionsWithSubmissions.filter(
           (question) => question.no === i,
         )[0];
-        console.log(question);
+        console.log(userSubmissions);
         const submission = userSubmissions.filter(
           (submission) => submission.question_id === question.id,
         )[0];
-        const score: number = calculateScore(
-          question.score,
-          submission.position,
-          question.submissions,
-        );
-        userScore += score;
+        if (submission) {
+          const score: number = calculateScore(
+            question.score,
+            submission.position,
+            question.submissions,
+          );
+          userScore += score;
+        } 
       }
       return {
         ...user,
@@ -60,12 +64,17 @@ const ScoreboardPage = async () => {
     })
     .sort((a, b) => b.score - a.score);
 
+    // check if payload.id is in top 10 teams or not
+    const inIn10 = teams.slice(0,10).some((team) => team.id === payload.id);
+
   return (
     <BackgroundBeamsWithCollision>
       <Scoreboard
         teams={teams}
         submissions={submissions}
         questionsWithSubmissions={questionsWithSubmissions}
+        userid={payload.id}
+        inIn10={inIn10}
       />
     </BackgroundBeamsWithCollision>
   );
