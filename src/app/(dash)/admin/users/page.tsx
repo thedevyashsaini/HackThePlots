@@ -57,7 +57,7 @@ export default function Users() {
             className="w-full bg-black hover:bg-black text-sm text-white"
             onClick={async (e) => {
               const smth = await signup(users);
-
+              console.log(smth);
             }}
           >
             Create Users
