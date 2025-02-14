@@ -19,11 +19,6 @@ export async function signup(
       return Errors.AuthError("You are not authorized to perform this action");
     }
 
-    data.map(async (user) => {
-      user.password = await bcrypt.hash(user.password, 10);
-      return user;
-    });
-
     for (let i = 0; i < data.length; i++) {
       data[i].password = await bcrypt.hash(data[i].password, 10);
     }
