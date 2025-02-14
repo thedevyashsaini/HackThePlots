@@ -20,9 +20,10 @@ export default function FlagForm(props: { type: boolean; question: Question }) {
         const submission = await flagSubmit(props.question.id, flag);
 
         if (submission.error) alert(`ERR: ${submission.message}`);
-
-        alert("Voila! You got it right!");
-        router.push("/questions");
+        else {
+          alert("Voila! You got it right!");
+          router.push("/questions");
+        }
       }}
     >
       <Input

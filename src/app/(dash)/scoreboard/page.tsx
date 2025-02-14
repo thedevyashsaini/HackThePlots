@@ -29,6 +29,9 @@ const ScoreboardPage = async () => {
     };
   });
 
+  console.log(users);
+  console.log(questionsWithSubmissions);
+
   const teams = users
     .map((user) => {
       const userSubmissions = submissions.filter(
@@ -39,6 +42,7 @@ const ScoreboardPage = async () => {
         const question = questionsWithSubmissions.filter(
           (question) => question.no === i,
         )[0];
+        console.log(question);
         const submission = userSubmissions.filter(
           (submission) => submission.question_id === question.id,
         )[0];

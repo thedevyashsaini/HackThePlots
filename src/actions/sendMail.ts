@@ -19,4 +19,6 @@ export const sendMail = async (from: string, to: string, subject: string, html: 
     subject: subject,
     html: html,
   });
+
+  return mail;
 };
