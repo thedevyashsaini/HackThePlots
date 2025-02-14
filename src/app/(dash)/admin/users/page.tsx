@@ -7,9 +7,7 @@ import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -42,7 +40,6 @@ export default function Users() {
       });
     }
 
-    console.log(data, newData);
     setUsers(newData);
   };
 
@@ -61,7 +58,6 @@ export default function Users() {
             onClick={async (e) => {
               const smth = await signup(users);
 
-              console.log(smth);
             }}
           >
             Create Users

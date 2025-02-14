@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../globals.css";
 import Sidebar from "@/components/sidebar-component";
-import { headers } from "next/headers";
 import { auth } from "@/functions/auth";
 
 const geistSans = localFont({
@@ -26,9 +25,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const pathname = headersList.get("x-invoke-path") || "";
-  console.log("---" + pathname);
 
   const payload = await auth();
 

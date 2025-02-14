@@ -50,7 +50,7 @@ const progression = (props: { chartData: any[] }) => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart
+      {props.chartData?.length > 0 ? <LineChart
         data={props.chartData}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
@@ -88,7 +88,7 @@ const progression = (props: { chartData: any[] }) => {
               ))}
             </Scatter>
           ))}
-      </LineChart>
+      </LineChart> : <div></div>}
     </ResponsiveContainer>
   );
 };

@@ -6,7 +6,7 @@ export interface Question {
   flag?: string | null;
   score: number;
   assets?: {
-    type: "audio" | "video" | "image" | "zip" | "pdf" | "srt";
+    type: "audio" | "video" | "image" | "zip" | "pdf" | "srt" | "url";
     id: string;
     url: string;
     name: string;

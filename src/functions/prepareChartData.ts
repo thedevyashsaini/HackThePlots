@@ -21,7 +21,6 @@ export default function generateChartData(
   submissions: Submission[],
   questionsWithSubmissions: QuestionWithSubmissions[],
 ): ChartDataPoint[] {
-  console.log(teams);
   const topTeams = teams.sort((a, b) => b.score - a.score).slice(0, 10);
 
   const teamScoresOverTime: { [key: string]: number } = {};
