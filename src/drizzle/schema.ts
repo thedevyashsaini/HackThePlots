@@ -84,7 +84,7 @@ export const assetTable = pgTable("asset", {
     .notNull(),
   url: text("url").notNull(),
   type: text("type", {
-    enum: ["image", "video", "audio", "zip", "pdf", "srt"],
+    enum: ["image", "video", "audio", "zip", "pdf", "srt", "url"],
   }).notNull(),
   downloadable: boolean("downloadable").notNull(),
 }).enableRLS();

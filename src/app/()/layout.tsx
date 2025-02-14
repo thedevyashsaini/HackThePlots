@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../globals.css";
-import { headers } from "next/headers";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -24,9 +23,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const pathname = headersList.get("x-invoke-path") || "";
-  console.log("---" + pathname);
 
   return (
     <html className={"dark"} lang="en">

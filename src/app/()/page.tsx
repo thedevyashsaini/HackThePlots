@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label_2";
 import { Input } from "@/components/ui/input_2";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,34 @@ import { BackgroundBeams } from "@/components/ui/background-beams";
 
 export default function SignupFormDemo() {
   const router = useRouter();
+
+  const [countdown, setCountdown] = useState("");
+  const targetDate: number = parseInt(
+    process.env.NEXT_PUBLIC_LOCKUP_TIME || "0"
+  );
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = Date.now();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        clearInterval(timer);
+        setCountdown("NOW");
+        return;
+      }
+
+      const hours = Math.floor(distance / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setCountdown(
+        `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+      );
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="w-screen h-screen bg-black">
@@ -23,20 +51,27 @@ export default function SignupFormDemo() {
         <form
           className="my-8"
           action={async (formData) => {
-            const email = formData.get("email")?.toString();
-            const password = formData.get("password")?.toString();
+            if (
+              process.env.NEXT_PUBLIC_LOCKUP_TIME &&
+              new Date(parseInt(process.env.NEXT_PUBLIC_LOCKUP_TIME)) < new Date()
+            ) {
+              const email = formData.get("email")?.toString();
+              const password = formData.get("password")?.toString();
 
-            if (!email || !password) {
-              return alert("Please enter email and password");
+              if (!email || !password) {
+                return alert("Please enter email and password");
+              }
+
+              const response = await signIn(email, password);
+
+              if (response.error) {
+                return alert(response.message);
+              }
+
+              router.push("/questions");
+            } else {
+              alert("TechHunt has not started yet!");
             }
-
-            const response = await signIn(email, password);
-
-            if (response.error) {
-              return alert(response.message);
-            }
-
-            router.push("/questions");
           }}
         >
           <LabelInputContainer className="mb-4">
@@ -67,6 +102,13 @@ export default function SignupFormDemo() {
           </button>
 
           <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+
+          {countdown !== "NOW" && <div className="flex flex-row  -my-3 -mb-10 text-zinc-400 justify-center">
+            Starting in:  
+            <div className="text-center font-mono text-md text-zinc-400 ml-2">
+              {countdown}
+            </div>
+          </div>}
         </form>
       </div>
       <BackgroundBeams className="pointer-events-none z-0" />

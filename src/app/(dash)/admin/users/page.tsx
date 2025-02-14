@@ -1,10 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { signup } from "@/actions/signup";
 import { useState } from "react";
 import { FileUpload } from "@/components/ui/file-upload";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default function Users() {
   const [users, setUsers] = useState<
@@ -33,14 +40,13 @@ export default function Users() {
       });
     }
 
-    console.log(data, newData);
     setUsers(newData);
   };
 
   return (
     <div className="min-h-screen h-screen w-screen overflow-auto bg-black rounded-md text-gray-200 p-8">
       <FileUpload onChange={handleFileSelect} />
-      <div className="w-full flex flex-row justify-center">
+      <div className="w-full flex flex-row justify-center mb-8">
         <HoverBorderGradient
           containerClassName="rounded-full"
           as="button"
@@ -51,7 +57,6 @@ export default function Users() {
             className="w-full bg-black hover:bg-black text-sm text-white"
             onClick={async (e) => {
               const smth = await signup(users);
-
               console.log(smth);
             }}
           >
@@ -59,6 +64,25 @@ export default function Users() {
           </span>
         </HoverBorderGradient>
       </div>
+      {/* Create a table with the users array */}
+      {users.length > 0 && <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Username</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Password</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody className="h-full">
+          {users.map((user, idx) => (
+            <TableRow key={idx} className="mb-4">
+              <TableCell>{user.username}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.password}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>}
     </div>
   );
 }

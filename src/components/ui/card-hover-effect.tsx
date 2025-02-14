@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
@@ -7,11 +8,10 @@ export const HoverEffect = ({
   items,
   className,
 }: {
-  items: {
-    title: string;
-    description: string;
-    link: string;
-  }[];
+  items: ({
+    type: string;
+    url: string;
+  } | undefined) [];
   className?: string;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -19,14 +19,14 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  py-10",
+        "grid grid-cols-1 py-2",
         className,
       )}
     >
-      {items.map((item, idx) => (
-        <Link
-          href={item?.link}
-          key={item?.link}
+      {items?.map((item, idx) => (
+        item && <Link
+          href={item?.url}
+          key={item?.url}
           className="relative group  block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -34,7 +34,7 @@ export const HoverEffect = ({
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
+                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block rounded-3xl"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -49,8 +49,8 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card>
-            <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
+            <CardTitle className="-mt-2 mb-4 capitalize">{item.type}</CardTitle>
+            {item.type == "url" ? <CardDescription>{item.url}</CardDescription> : item.type == "image" && <img src={item.url} className="rounded-md" alt={item.url}/>}
           </Card>
         </Link>
       ))}
