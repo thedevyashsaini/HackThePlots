@@ -5,6 +5,23 @@ import { auth } from "@/functions/auth";
 import bcrypt from "bcrypt";
 import { db } from "@/drizzle";
 import { userTable } from "@/drizzle/schema";
+import { eq } from "drizzle-orm";
+
+async function updateUser(user: {
+  username: string;
+  email: string;
+  password: string;
+}) {
+  const dbUser = await db.query.userTable.findFirst({
+    where: eq(userTable.email, user.email),
+  });
+
+  if (!dbUser) {
+    await db.insert(userTable).values(user);
+  } else {
+    await db.update(userTable).set(user).where(eq(userTable.email, user.email));
+  }
+}
 
 export async function signup(
   data: {
@@ -23,10 +40,14 @@ export async function signup(
       data[i].password = await bcrypt.hash(data[i].password, 10);
     }
 
-    console.log(data);
-
     try {
-      await db.insert(userTable).values(data);
+      const finalPromise = [];
+
+      for (let i = 0; i < data.length; i++) {
+        finalPromise.push(updateUser(data[i]));
+      }
+
+      await Promise.all(finalPromise);
 
       return {
         message: "Sign up successful",
