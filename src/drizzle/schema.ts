@@ -28,7 +28,7 @@ export const questionTable = pgTable("questions", {
   id: uuid("id").defaultRandom().primaryKey(),
   no: bigint("no", { mode: "number" }).unique().notNull(),
   title: text("title").notNull(),
-  question: text("question"),
+  question: text("question").notNull(),
   flag: text("flag").unique(),
   score: bigint("score", { mode: "number" }).notNull(),
 }).enableRLS();
