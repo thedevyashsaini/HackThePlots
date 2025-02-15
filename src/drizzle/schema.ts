@@ -14,7 +14,7 @@ export const userTable = pgTable("users", {
   username: text("username").unique().notNull(),
   email: text("email").unique().notNull(),
   password: text("password").notNull(),
-  progress: bigint("progress", { mode: "number" }).default(1).notNull(),
+  progress: bigint("progress", { mode: "number" }).default(0).notNull(),
   role: text("role", { enum: ["participant", "admin"] })
     .default("participant")
     .notNull(),
@@ -29,7 +29,7 @@ export const questionTable = pgTable("questions", {
   no: bigint("no", { mode: "number" }).unique().notNull(),
   title: text("title").notNull(),
   question: text("question"),
-  flag: text("flag").unique(),
+  flag: text("flag").unique().notNull(),
   score: bigint("score", { mode: "number" }).notNull(),
 }).enableRLS();
 
