@@ -13,13 +13,14 @@ async function updateUser(user: {
   username: string;
   email: string;
   password: string;
-}) {
+}, raw_pass: string) {
   const dbUser = await db.query.userTable.findFirst({
     where: eq(userTable.email, user.email),
   });
 
   if (!dbUser) {
     await db.insert(userTable).values(user);
+    await sendMail("HackThePlot", user.email, "Welcome to the TechHunt", htmlTemplate(user.username, user.email, raw_pass))
   } else {
     await db.update(userTable).set(user).where(eq(userTable.email, user.email));
   }
@@ -49,10 +50,7 @@ export async function signup(
       const finalPromise = [];
 
       for (let i = 0; i < data.length; i++) {
-        finalPromise.push(updateUser(data[i]));
-        finalPromise.push(
-          sendMail("HackThePlot", data[i].email, "Welcome to the TechHunt", htmlTemplate(data[i].username, data[i].email, raw_pass[i]))
-        );
+        finalPromise.push(updateUser(data[i], raw_pass[i]));
       }
 
       await Promise.all(finalPromise);
@@ -91,8 +89,9 @@ const htmlTemplate = (teamName: string, email: string, password: string) => {
                     <p style="color: #e0e0e0; margin-bottom: 1rem;">The first step towards uncovering the mystery of Anaya is actually being able to login!</p>
                     <p style="color: #e0e0e0; margin-bottom: 1rem;">So here are your login credentials fellow hunter...</p>
                     <div style="display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; font-size: 0.875rem; font-weight: 500; height: 4rem; padding-left: 1rem; padding-right: 1rem; border: 0.5px solid #bb86fc; color: #ffffff; width: fit-content; border-radius: 0.5rem; text-decoration: none;">
-                        <span style="display: inline-flex; color: #ffffff; text-decoration: none; margin: auto; padding: 8px;">Email:  ${email}<br>Pass:  ${password}</span>
+                        <span style="display: inline-flex; color: #ffffff; text-decoration: none; margin: auto; padding: 8px;">Email:  ${email.replace('@', '&#8203;@').replace(".","&#8203;.")}<br>Pass:  ${password}</span>
                     </div>
+                    <p style="color: #e0e0e0; margin-top: 1rem;">For all announcements, join our <a href="https://chat.whatsapp.com/ElqeDEwzTPv6syRVmqv6B5" style="text-decoration:none;">WhatsApp Group</a></p>
                     <p style="color: #e0e0e0; margin-top: 1rem;">Happy Hacking!</p>
                     <p style="color: #e0e0e0; margin-top: 1rem;">PS: Don't forget to bring your laptops, headphones and ego.</p>
                 </div>

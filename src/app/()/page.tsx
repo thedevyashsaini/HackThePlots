@@ -78,7 +78,7 @@ export default function SignupFormDemo() {
             <Label htmlFor="email">Email Address</Label>
             <Input
               id="email"
-              placeholder="team_name"
+              placeholder="hacktheplot@gmail.com"
               name={"email"}
               type="email"
             />

@@ -37,8 +37,8 @@ const myteam = props.teams[myTeamIndex];
             <TableCell title={team.username}>
               {team.username.slice(0, 12)}
             </TableCell>
-            <TableCell>{team.progress - 1}</TableCell>
-            <TableCell className="text-right">{team.score}</TableCell>
+            <TableCell>{team.progress}</TableCell>
+            <TableCell className="text-right">{team.score.toFixed(2)}</TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -48,8 +48,8 @@ const myteam = props.teams[myTeamIndex];
           <TableRow>
             <TableCell>{myTeamIndex+1}</TableCell>
             <TableCell>{myteam.username}</TableCell>
-            <TableCell>{myteam.progress-1}</TableCell>
-            <TableCell className="text-right">{myteam.score}</TableCell>
+            <TableCell>{myteam.progress}</TableCell>
+            <TableCell className="text-right">{myteam.score.toFixed(2)}</TableCell>
           </TableRow>
         </TableFooter>
       )}

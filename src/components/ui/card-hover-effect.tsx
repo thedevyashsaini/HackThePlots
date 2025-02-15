@@ -26,6 +26,7 @@ export const HoverEffect = ({
       {items?.map((item, idx) => (
         item && <Link
           href={item?.url}
+          target="_blank"
           key={item?.url}
           className="relative group  block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
@@ -50,7 +51,7 @@ export const HoverEffect = ({
           </AnimatePresence>
           <Card>
             <CardTitle className="-mt-2 mb-4 capitalize">{item.type}</CardTitle>
-            {item.type == "url" ? <CardDescription>{item.url}</CardDescription> : item.type == "image" && <img src={item.url} className="rounded-md" alt={item.url}/>}
+            {["url" ,"zip" ,"audio"].includes(item.type)  ? <CardDescription>{item.url}</CardDescription> : item.type == "image" && <img src={item.url} className="rounded-md" alt={item.url}/>}
           </Card>
         </Link>
       ))}

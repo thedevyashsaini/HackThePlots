@@ -28,10 +28,7 @@ export const assetsPanel = (question: Question) => {
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-full">
-        { assets && assets.length > 0 ? <HoverEffect items={assets} /> : null}
-        { assets && assets.length > 0 ? <HoverEffect items={assets} /> : null}
-        { assets && assets.length > 0 ? <HoverEffect items={assets} /> : null}
-        { assets && assets.length > 0 ? <HoverEffect items={assets} /> : null}
+          {assets && assets.length > 0 ? <HoverEffect items={assets} /> : null}
         </ScrollArea>
       </CardContent>
     </Card>
@@ -56,6 +53,11 @@ export const QuestionPanel = (props: {
           </span>
           <h1 className="text-xl font-semibold">{props.question.title}</h1>
         </div>
+        {props.question.question && (
+          <div className="mt-1 text-sm text-zinc-400 mb-4 break-words">
+            {props.question.question}
+          </div>
+        )}
         <div className="mt-1 text-sm text-zinc-400">
           Points: <span className="text-[#8b5cf6]">{props.question.score}</span>
         </div>

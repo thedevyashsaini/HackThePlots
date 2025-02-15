@@ -51,7 +51,7 @@ export default function generateChartData(
     teamScoresOverTime[team.id] += score;
 
     const dataPoint: ChartDataPoint = {
-      time: new Date(submission.time).toDateString(),
+      time: new Date(submission.time).toTimeString().split(' ')[0],
     };
     topTeams.forEach((t) => {
       dataPoint[t.username] = teamScoresOverTime[t.id];
