@@ -15,6 +15,7 @@ export function Leaderboard(props: {
   teams: Teams[];
   userid: string;
   inIn10: boolean;
+  isAdmin: boolean;
 }) {
   const myTeamIndex = props.teams.findIndex((team) => team.id === props.userid);
 const myteam = props.teams[myTeamIndex];
@@ -30,7 +31,7 @@ const myteam = props.teams[myTeamIndex];
         </TableRow>
       </TableHeader>
       <TableBody className="h-full">
-        {props.teams.slice(0, 10).map((team, index) => (
+        {props.teams.slice(0, !props.isAdmin ? 10 : props.teams.length).map((team, index) => (
           <TableRow key={team.id} className="mb-4">
             <TableCell className="font-medium">{index + 1}</TableCell>
             <TableCell title={team.username}>
@@ -42,7 +43,7 @@ const myteam = props.teams[myTeamIndex];
         ))}
       </TableBody>
       {/* if user is not in top 10, show */}
-      {!props.inIn10 && (
+      {!props.isAdmin && !props.inIn10 && (
         <TableFooter>
           <TableRow>
             <TableCell>{myTeamIndex+1}</TableCell>
