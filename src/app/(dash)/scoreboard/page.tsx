@@ -72,6 +72,7 @@ const ScoreboardPage = async () => {
         questionsWithSubmissions={questionsWithSubmissions}
         userid={payload.id}
         inIn10={inIn10}
+        isAdmin={payload.role === "admin"}
       />
     </BackgroundBeamsWithCollision>
   );

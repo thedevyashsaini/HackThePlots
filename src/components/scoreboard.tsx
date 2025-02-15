@@ -16,6 +16,7 @@ const scoreboard = (props: {
   submissions: submission[];
   questionsWithSubmissions: QuestionWithSubmissions[];
   inIn10: boolean;
+  isAdmin: boolean;
 }) => {
   const chartData = prepareChartData(
     props.teams,
@@ -36,7 +37,7 @@ const scoreboard = (props: {
         <div className="h-full w-full rounded-xl border border-zinc-800 p-4">
           <h3 className="text-xl font-bold text-white m-2 mb-4">Leaderboard ({props.teams.length} teams)</h3>
           <div className="w-full h-full p-2">
-            <Leaderboard teams={props.teams} userid={props.userid} inIn10={props.inIn10}/>
+            <Leaderboard teams={props.teams} userid={props.userid} inIn10={props.inIn10} isAdmin={props.isAdmin}/>
           </div>
         </div>
       </div>
