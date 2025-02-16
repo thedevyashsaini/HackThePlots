@@ -81,7 +81,7 @@ const htmlTemplate = (teamName: string, email: string, password: string) => {
         <div style="max-width: 28rem; margin: 2rem auto;">
             <div style="background-color: #1e1e1e; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.3);">
                 <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                    <img src="http://github.com/iiitv.png" alt="cc" style="height: 30px; margin-right: 10px;">
+                    <img src="https://i.imgur.com/XDemAsx.png" alt="cc" style="height: 30px; margin-right: 10px;">
                     <h1 style="font-size: 1.25rem; font-weight: 600; color: #ffffff; margin: 0;">Hack The Plot</h1>
                 </div>
                 <div style="background-color: #2a2a2a; padding: 1rem; border-radius: 0.5rem;">
