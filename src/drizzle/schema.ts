@@ -46,7 +46,7 @@ export const submissionTable = pgTable(
       .references(() => questionTable.id)
       .notNull(),
     user_id: uuid("user_id")
-      .references(() => userTable.id)
+      .references(() => userTable.id, { onDelete: "cascade" })
       .notNull(),
     position: bigint("position", { mode: "number" }).notNull(),
     time: timestamp({ withTimezone: true, mode: "string" }).notNull(),
