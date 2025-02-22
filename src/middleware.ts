@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export default function middleware(req: NextRequest) {
-  if (!req.cookies.get("access_token") && req.nextUrl.pathname !== "/") {
+  if (
+    !req.cookies.get("access_token") &&
+    req.nextUrl.pathname !== "/" &&
+    !req.nextUrl.pathname.startsWith("/certificate")
+  ) {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin).toString());
   } else if (req.cookies.get("access_token") && req.nextUrl.pathname === "/") {
     return NextResponse.redirect(
