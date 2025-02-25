@@ -7,6 +7,8 @@ import { userTable } from "@/drizzle/schema";
 import { Errors } from "@/classes/Errors";
 import { cookies } from "next/headers";
 import { SignJWT } from "jose";
+import { Payload } from "@/types/Payload";
+import { generateJWT } from "@/functions/auth";
 
 export async function signIn(email: string, password: string) {
   try {
@@ -33,17 +35,12 @@ export async function signIn(email: string, password: string) {
         username: user.username,
         email: user.email,
         role: user.role,
-      };
+      } as Payload;
 
       const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
       const alg = "HS256";
 
-      const token = await new SignJWT(payload)
-        .setProtectedHeader({ alg })
-        .setIssuedAt()
-        .setExpirationTime("4w")
-        .sign(secret);
-
+      const token = await generateJWT(payload);
       (await cookies()).set("access_token", token);
 
       return {

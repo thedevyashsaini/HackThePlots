@@ -1,4 +1,4 @@
-import { jwtVerify } from "jose";
+import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { Payload } from "@/types/Payload";
 
@@ -15,4 +15,15 @@ export async function auth() {
   } catch (e: any) {
     throw new Error(e.toString());
   }
+}
+
+export async function generateJWT(payload: Payload) {
+  const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
+  const alg = "HS256";
+
+  return await new SignJWT(payload)
+    .setProtectedHeader({ alg })
+    .setIssuedAt()
+    .setExpirationTime("4w")
+    .sign(secret);
 }
