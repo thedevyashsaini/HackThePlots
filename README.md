@@ -11,7 +11,7 @@ A custom CTF hosting website tailored to fit the needs of TechHunt.
 ## Features
 
 - Built in 3 days (don't worry you'll find the bugs)
-- Segsy UI and animated backgrounds (very cool, very awesome)
+- Segsy UI and animated backgrounds (very cool, very awesome, satisfaction guaranteed)
 - Per question asset attachment
 - Audio playback hints with synchronised transcriptions
 - Custom pool-based harmonic decrement scoring system
