@@ -10,6 +10,8 @@ interface CertificatePayload {
   eventName: string;
 }
 
+const cacheInvalidation = ["1BISON", "2Dandadan"];
+
 export default async function Certificate({
   params,
 }: {
@@ -20,13 +22,15 @@ export default async function Certificate({
     const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
     const { payload: certPayload }: { payload: CertificatePayload } =
       await jwtVerify(certID, secret);
-    console.log(typeof certPayload.standing);
 
     if (
-      certPayload.standing.toString() + certPayload.teamName === "1BISON" ||
-      certPayload.standing.toString() + certPayload.teamName === "2Dandadan"
-    )
+      cacheInvalidation.includes(
+        certPayload.standing.toString() + certPayload.teamName,
+      )
+    ) {
       throw new Error("Invalid Certificate Signature");
+    }
+
     return (
       <div className="min-h-screen bg-black flex items-center justify-center bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]">
         <Card className="w-full max-w-md border-zinc-800 bg-zinc-950/50 backdrop-blur-sm">
