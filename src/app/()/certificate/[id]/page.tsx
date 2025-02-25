@@ -73,7 +73,7 @@ export default async function Certificate({
     // Invalid cert probably
     return (
       <>
-        <h1 className={"m-auto w-fit"}>
+        <h1 className={"m-auto w-fit p-4"}>
           Invalid Certificate Signature, Screw you for tryna fake it!
         </h1>
       </>
