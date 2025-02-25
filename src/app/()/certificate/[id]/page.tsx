@@ -22,6 +22,11 @@ export default async function Certificate({
       await jwtVerify(certID, secret);
     console.log(typeof certPayload.standing);
 
+    if (
+      certPayload.standing.toString() + certPayload.teamName === "1BISON" ||
+      certPayload.standing.toString() + certPayload.teamName === "2Dandadan"
+    )
+      throw new Error("Invalid Certificate Signature");
     return (
       <div className="min-h-screen bg-black flex items-center justify-center bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]">
         <Card className="w-full max-w-md border-zinc-800 bg-zinc-950/50 backdrop-blur-sm">
