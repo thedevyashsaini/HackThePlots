@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "../globals.css";
 import Sidebar from "@/components/sidebar-component";
 import { auth } from "@/functions/auth";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -16,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "TechHunt | Hack The Plot",
+  title: "TheCTF | Hack The Plot",
   description: "",
 };
 
@@ -34,6 +35,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Sidebar user={payload}>{children}</Sidebar>
+        <SpeedInsights/>
       </body>
     </html>
   );

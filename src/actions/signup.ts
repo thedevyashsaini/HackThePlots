@@ -20,7 +20,7 @@ async function updateUser(user: {
 
   if (!dbUser) {
     await db.insert(userTable).values(user);
-    await sendMail("HackThePlot", user.email, "Welcome to the TechHunt", htmlTemplate(user.username, user.email, raw_pass))
+    await sendMail("HackThePlot", user.email, "Welcome to the TheCTF", htmlTemplate(user.username, user.email, raw_pass))
   } else {
     await db.update(userTable).set(user).where(eq(userTable.email, user.email));
   }
@@ -85,7 +85,7 @@ const htmlTemplate = (teamName: string, email: string, password: string) => {
                     <h1 style="font-size: 1.25rem; font-weight: 600; color: #ffffff; margin: 0;">Hack The Plot</h1>
                 </div>
                 <div style="background-color: #2a2a2a; padding: 1rem; border-radius: 0.5rem;">
-                    <p style="color: #e0e0e0; margin-bottom: 1rem;">Hola! Team ${teamName}👋 TechHunt here...</p>
+                    <p style="color: #e0e0e0; margin-bottom: 1rem;">Hola! Team ${teamName}👋 TheCTF here...</p>
                     <p style="color: #e0e0e0; margin-bottom: 1rem;">The first step towards uncovering the mystery of Anaya is actually being able to login!</p>
                     <p style="color: #e0e0e0; margin-bottom: 1rem;">So here are your login credentials fellow hunter...</p>
                     <div style="display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; font-size: 0.875rem; font-weight: 500; height: 4rem; padding-left: 1rem; padding-right: 1rem; border: 0.5px solid #bb86fc; color: #ffffff; width: fit-content; border-radius: 0.5rem; text-decoration: none;">
@@ -97,7 +97,7 @@ const htmlTemplate = (teamName: string, email: string, password: string) => {
                 </div>
                 <p style="color: #8a8a8a; font-size: 0.875rem; margin-top: 0.8rem;">Made with 
                     <img src="https://iiitvcc.vercel.app/heart.png" alt="love" style="display: inline-block; width: 1rem; height: 1rem;">
-                    by <a href="https://hacktheplot.vercel.app" style="color: #bb86fc; text-decoration: none;">Team TechHunt</a>
+                    by <a href="https://hacktheplot.vercel.app" style="color: #bb86fc; text-decoration: none;">Team TheCTF</a>
                 </p>
                 <p style="color: #8a8a8a; font-size: 0.875rem; margin-top: -0.8rem;">Questions? <a href="tel:9074755597" style="color: #bb86fc; text-decoration: none;">Contact Us</a></p>
             </div>

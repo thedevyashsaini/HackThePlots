@@ -45,7 +45,7 @@ export default function Component() {
     <Card>
       <CardHeader>
         <CardTitle>Lines of Code Written</CardTitle>
-        <CardDescription>for TechHunt 2024</CardDescription>
+        <CardDescription>for TheCTF 2024</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

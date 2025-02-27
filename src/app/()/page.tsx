@@ -42,10 +42,10 @@ export default function SignupFormDemo() {
     <div className="w-screen h-screen bg-black">
       <div className="max-w-md w-full z-10 bg-black mx-auto rounded-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:rounded-2xl p-4 md:p-8 border-input border-[1px] shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-          Welcome to TechHunt
+          Welcome to TheCTF
         </h2>
         <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-          Login with HackThePlot to start the TechHunt grind!
+          Login with HackThePlot to start the TheCTF grind!
         </p>
 
         <form
@@ -70,7 +70,7 @@ export default function SignupFormDemo() {
 
               router.push("/questions");
             } else {
-              alert("TechHunt has not started yet!");
+              alert("TheCTF has not started yet!");
             }
           }}
         >

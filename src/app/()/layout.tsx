@@ -16,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "TechHunt | Hack The Plot",
+  title: "TheCTF | Hack The Plot",
   description: "",
 };
 

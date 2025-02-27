@@ -1,11 +1,11 @@
 
 # Hack The Plot
 
-A custom CTF hosting website tailored to fit the needs of TechHunt. 
+A custom CTF hosting website tailored to fit the needs of TheCTF. 
 
-<!-- <img width="2026" alt="DesktopMockups_TechHunt" src="https://github.com/user-attachments/assets/1c6d7adc-7323-4c9b-b516-31a6fb9ce7ba"> -->
-<!-- <img width="2026" alt="DesktopMockups_TechHunt_" src="https://github.com/user-attachments/assets/aeb1ffa3-4441-42b5-a2d6-f257ae5112dd"> -->
-<img width="2026" alt="DesktopMockups_TechHunt__" src="https://github.com/user-attachments/assets/e818b4eb-f954-4f61-867b-3af9010d0ce4">
+<!-- <img width="2026" alt="DesktopMockups_TheCTF" src="https://github.com/user-attachments/assets/1c6d7adc-7323-4c9b-b516-31a6fb9ce7ba"> -->
+<!-- <img width="2026" alt="DesktopMockups_TheCTF_" src="https://github.com/user-attachments/assets/aeb1ffa3-4441-42b5-a2d6-f257ae5112dd"> -->
+<img width="2026" alt="DesktopMockups_TheCTF__" src="https://github.com/user-attachments/assets/e818b4eb-f954-4f61-867b-3af9010d0ce4">
 
 
 ## Features

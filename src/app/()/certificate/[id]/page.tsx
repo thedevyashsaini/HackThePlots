@@ -70,7 +70,7 @@ export default async function Certificate({
               <div className="space-y-2">
                 <p className="text-sm text-zinc-500">Event</p>
                 <p className="text-lg font-semibold text-white">
-                  {"TechHunt '24"}
+                  {"TheCTF '24"}
                 </p>
               </div>
             </div>
