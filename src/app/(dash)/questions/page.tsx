@@ -11,12 +11,21 @@ export default async function Questions() {
     db.query.questionTable.findMany({
       orderBy: [asc(questionTable.no)],
     }),
-    db.query.submissionTable.findMany({
-      where: eq(submissionTable.user_id, payload.id),
-      with: {
-        question: true,
-      },
-    }),
+    db
+      .select()
+      .from(submissionTable)
+      .where(eq(submissionTable.user_id, payload.id))
+      .leftJoin(
+        questionTable,
+        eq(submissionTable.question_id, questionTable.id),
+      )
+      .execute()
+      .then((rows) => {
+        return rows.map((row) => ({
+          ...row.submission,
+          question: row.questions || null,
+        }));
+      }),
   ]);
 
   const user = await db.query.userTable.findFirst({

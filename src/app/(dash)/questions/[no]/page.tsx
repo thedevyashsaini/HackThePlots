@@ -1,7 +1,11 @@
-
 import { db } from "@/drizzle";
 import { eq } from "drizzle-orm";
-import { questionTable, userTable } from "@/drizzle/schema";
+import {
+  assetTable,
+  questionTable,
+  transcriptTable,
+  userTable,
+} from "@/drizzle/schema";
 import { auth } from "@/functions/auth";
 import {
   ResizableHandle,
@@ -23,22 +27,50 @@ export default async function Question({
     where: eq(userTable.id, payload.id),
   });
 
-  const question = await db.query.questionTable.findFirst({
-    where: eq(questionTable.no, parseInt(no)),
-    with: {
-      assets: {
-        with: {
-          transcript: {
-            columns: {
-              audio_id: true,
-              transcript_id: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const question = await db
+    .select()
+    .from(questionTable)
+    .where(eq(questionTable.no, parseInt(no)))
+    .leftJoin(assetTable, eq(questionTable.id, assetTable.question_id))
+    .leftJoin(transcriptTable, eq(assetTable.id, transcriptTable.audio_id))
+    .execute()
+    .then((rows) => {
+      // Group the results to reconstruct the nested structure
+      if (rows.length === 0) return null;
 
+      const questionData = rows[0].questions;
+      const assets = rows
+        .filter((row) => row.asset !== null)
+        .map((row) => {
+          if (!row.asset?.type) {
+            console.warn(`Missing type for asset: ${row.asset?.id}`);
+            // Provide a default type or skip this asset
+            return null;
+          }
+          return {
+            ...row.asset,
+            // Ensure required properties are present
+            id: row.asset.id,
+            url: row.asset.url || "",
+            name: row.asset.name || "",
+            question_id: row.asset.question_id,
+            type: row.asset.type,
+            downloadable: row.asset.downloadable ?? false,
+            transcript: row.transcript
+              ? {
+                  audio_id: row.transcript.audio_id,
+                  transcript_id: row.transcript.transcript_id,
+                }
+              : undefined,
+          };
+        })
+        .filter(Boolean) as NonNullable<Question["assets"]>;
+
+      return {
+        ...questionData,
+        assets: assets,
+      };
+    });
   console.log(question);
 
   if (!user) return <h1>It don't exist homedawg</h1>;
@@ -75,4 +107,3 @@ export default async function Question({
     </>
   );
 }
-
