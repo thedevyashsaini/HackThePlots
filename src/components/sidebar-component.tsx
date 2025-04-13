@@ -113,7 +113,7 @@ export default function SidebarDemo({ children, user }: { children: ReactNode, u
           <div>
             <SidebarLink
               link={{
-                label: "Made with ❤️ by \nJaydeep | Devyash | Kunj | Srishti",
+                label: "Made with ❤️ by \nTDS | Sodu | Pandat | Deepu | Ram",
                 href: "https://github.com/SteakFisher/hacktheplot",
                 icon: (
                   <Image
